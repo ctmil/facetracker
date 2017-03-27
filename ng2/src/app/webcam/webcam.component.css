@@ -1,0 +1,52 @@
+#overlay, #webgl {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transform: scaleX(-1);
+}
+#video {
+  transform: scaleX(-1);
+}
+#container {
+  position: relative;
+  width: 370px;
+}
+#content {
+  margin-top: 70px;
+  margin-left: 100px;
+  margin-right: 100px;
+  max-width: 950px;
+}
+#sketch {
+  display: block;
+}
+#filter {
+  display: none;
+}
+h2 {
+  font-weight: 400;
+}
+.nogum {
+  display: none;
+}
+.btn {
+  font-family: 'Lato';
+  font-size: 16px;
+}
+.hide {
+  display: none;
+}
+.nohide {
+  display: block;
+}
+.abs{
+  position:absolute;
+  top:0;
+  left:0;
+}
+#total{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1, 1);
+}
