@@ -4,11 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "cd ng2 && ng build && cd .. && electron .",
     "install-all": "npm install && cd ng2 && npm install && cd ..",
-    "electron": "cd ng2 && ng build && cd .. && electron .",
+    "start": "cd ng2 && ng build -bh ./ && cd .. && electron .",
+    "electron": "electron .",
     "serve": "cd ng2 && ng serve && cd ..",
-    "build": "cd ng2 && ng build && cd .."
+    "build": "cd ng2 && ng build -bh ./ && cd .."
   },
   "repository": "",
   "keywords": [

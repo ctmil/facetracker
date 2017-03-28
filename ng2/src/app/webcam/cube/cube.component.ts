@@ -63,7 +63,7 @@ export class CubeComponent implements AfterViewInit {
   private animateCube() {
     this.cube.scale.set(this.scale*2,this.scale*2.5,this.scale*2);
     this.cube.position.x = ( (this.posx-200)*-1 ) - 75;
-    this.cube.position.y = ( (this.posy-150)*-1 ) - 75;
+    this.cube.position.y = ( (this.posy-150)*-1 ) - 75;*/
     //this.cube.rotation.y = ( -2 + ( 2 - (-2) ) * (this.rotation - 0.0) / (0.1 - (-0.1) ) ) * -1;
   }
 

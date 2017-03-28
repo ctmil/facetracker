@@ -51,8 +51,14 @@ export class FaceTracker {
   public drawLoop = () => {
 
     this._ctracker.track(this._video.nativeElement);
+    var canvasInput = this._overlayCC.nativeElement;
 
     if (this._ctracker.getCurrentPosition()) {
+
+      var cc = canvasInput.getContext('2d');
+
+      cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+      this._ctracker.draw(canvasInput);
 
       if(this._ctracker.getScore() > 0.5){
 
