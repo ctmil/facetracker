@@ -2,7 +2,6 @@
   <video #video [src]="videosrc" id="video" autoplay width="400" height="300" preload="auto" loop>
   </video>
   <canvas #overlay id="overlay" width="400" height="300"></canvas>
-  <canvas #webgl id="webgl" width="400" height="300"></canvas>
   <div class="abs">
     <layer-3d
       [cameraZ]="400"
@@ -20,4 +19,3 @@
     </layer-3d>
   </div>
 </div>
-<img #mask id="mask" src="./assets/skullmask.jpg" [hidden]="true" />

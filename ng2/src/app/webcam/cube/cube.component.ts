@@ -15,16 +15,13 @@ export class CubeComponent implements AfterViewInit {
 
   @ViewChild('canvas')
   private canvasRef: ElementRef;
-
   private cube: THREE.Mesh;
-
   private renderer: THREE.WebGLRenderer;
-
   private scene: THREE.Scene;
 
   /* PROPERTIES */
   @Input()
-  public size: number = 150;
+  public size: number = 100;
 
   @Input()
   public cameraZ: number = 400;
@@ -52,7 +49,6 @@ export class CubeComponent implements AfterViewInit {
 
   @Input('posx')
   public posx: any = 0;
-
   @Input('posy')
   public posy: any = 0;
 
@@ -61,40 +57,38 @@ export class CubeComponent implements AfterViewInit {
   /* STAGING, ANIMATION, AND RENDERING */
 
   private animateCube() {
-    this.cube.scale.set(this.scale*2,this.scale*2,this.scale*2);
+    this.cube.scale.set(this.scale,this.scale,this.scale);
     this.cube.position.x = ( (this.posx-200)*-1 );
     this.cube.position.y = ( (this.posy-150)*-1);
     this.cube.rotation.y = this.rotationY / 50;
-    this.cube.rotation.z = this.rotationZ / 60 * -1;
-    this.cube.rotation.x = this.rotationX / 50 * -1;
+    this.cube.rotation.z = this.rotationZ / 60*-1;
+    this.cube.rotation.x = this.rotationX / 50*-1;
   }
 
   private createCube() {
-    var scena = new THREE.Scene();
+    //Cube for Debug
     let material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-
     let geometry = new THREE.BoxBufferGeometry(this.size, this.size, this.size);
     this.cube = new THREE.Mesh(geometry, material);
 
+    /*var scena = new THREE.Scene();
     var dae;
     var loader = require('three-collada-loader')(THREE);
+    var pathToDae = '';  //Path to Collada Model
 		loader.options.convertUpAxis = true;
-		loader.load( './assets/cap.dae', function ( collada ) {
-
+		loader.load( pathToDae, function ( collada ) {
 				dae = collada.scene;
-
 				dae.scale.x = dae.scale.y = dae.scale.z = 0.5;
 				dae.updateMatrix();
-
         scena.add(dae);
-
-		});
+		});*/ //Uncomment for use Collada Model
 
     var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 
     this.scene.add(directionalLight);
-    //this.scene.add(scena);
-    this.scene.add(this.cube);
+    this.scene.add(this.cube);  //Add Cube for Debug
+
+    //this.scene.add(scena); //For Load 3D Models
   }
 
   private createScene() {
@@ -111,9 +105,7 @@ export class CubeComponent implements AfterViewInit {
     return this.canvas.clientWidth / this.canvas.clientHeight;
   }
 
-  /**
-   * Start the rendering loop
-   */
+  /* Rendering Loop */
   private startRenderingLoop() {
     /* Renderer */
     // Use canvas element in template

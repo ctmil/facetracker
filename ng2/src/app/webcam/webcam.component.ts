@@ -22,8 +22,6 @@ export class WebcamComponent implements OnInit, AfterViewInit {
   private _videosrc: SafeUrl;
   @ViewChild("video") private _videoCamElem: ElementRef;
   @ViewChild("overlay") private _overlay: ElementRef;
-  @ViewChild("webgl") private _webgl: ElementRef;
-  @ViewChild("mask") private _mask: ElementRef;
 
   private _constraints: any = {
     video: {
@@ -60,7 +58,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
   }
 
   private ctrack() {
-    this.track = new FaceTracker(this._videoCamElem, this._overlay, this._webgl, this._mask, true);
+    this.track = new FaceTracker(this._videoCamElem, this._overlay, true);
     this.track.startTracke();
   }
 
@@ -76,8 +74,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
     console.log(error.name + ": " + error.message);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.ctrack();
