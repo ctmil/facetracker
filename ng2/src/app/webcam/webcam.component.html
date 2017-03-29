@@ -4,20 +4,20 @@
   <canvas #overlay id="overlay" width="400" height="300"></canvas>
   <canvas #webgl id="webgl" width="400" height="300"></canvas>
   <div class="abs">
-    <geometry-cube texture="./assets/textures/crate.gif"
+    <layer-3d
       [cameraZ]="400"
       [fieldOfView]="100"
       [nearClipping]="1"
       [farClipping]="1000"
       [scale]="scale"
-      [rotation]="rotation"
+      [rotationY]="rotationY"
+      [rotationZ]="rotationZ"
+      [rotationX]="rotationX"
+      [eyeLeft]="eyeLeft"
+      [eyeRight]="eyeRight"
       [posx]="posx"
       [posy]="posy">
-    </geometry-cube>
+    </layer-3d>
   </div>
 </div>
-<p>{{scale}}</p>
-<p>{{rotation}}</p>
-<p>{{posx}}</p>
-<p>{{posy}}</p>
 <img #mask id="mask" src="./assets/skullmask.jpg" [hidden]="true" />

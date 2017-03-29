@@ -20,7 +20,11 @@ export class FaceTracker {
   private _mask_coords: any;
 
   public _scale: any = 0;
-  public _rotation: any = 0;
+  public _rotationY: any = 0;
+  public _rotationZ: any = 0;
+  public _rotationX: any = 0;
+  public _eyeLeft: any = 0;
+  public _eyeRight: any = 0;
   public _posx: any = 0;
   public _posy: any = 0;
 
@@ -40,10 +44,6 @@ export class FaceTracker {
     this._ctracker = new Tracker.tracker({useWebGL: true});
     this._ctracker.init(faceModel);
 
-    //Deformer
-    this._fdeformer = new Deformer.faceDeformer();
-    this._fdeformer.init(this._webglCC.nativeElement);
-
     //Draw in Canvas
     this.drawLoop();
   }
@@ -57,23 +57,29 @@ export class FaceTracker {
 
       var cc = canvasInput.getContext('2d');
 
-      cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
-      this._ctracker.draw(canvasInput);
-
       if(this._ctracker.getScore() > 0.5){
+        cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+        this._ctracker.draw(canvasInput);
 
         var er = this._emotion.meanPredict(this._ctracker.getCurrentParameters());
 
-        this._scale = this._ctracker.getCurrentParameters()[0];
-        this._rotation = this._ctracker.getCurrentParameters()[1];
-        this._posx = this._ctracker.getCurrentParameters()[2];
-        this._posy = this._ctracker.getCurrentParameters()[3];
+        var w = this._ctracker.getCurrentPosition()[14][0] - this._ctracker.getCurrentPosition()[0][0];
+        var h = this._ctracker.getCurrentPosition()[7][0] - this._ctracker.getCurrentPosition()[33][0];
+        var pz = this._ctracker.getCurrentPosition()[47][0] - this._ctracker.getCurrentPosition()[37][0];
+        var rizq = this._ctracker.getCurrentPosition()[3][0] - this._ctracker.getCurrentPosition()[44][0];
+        var rder = this._ctracker.getCurrentPosition()[50][0] - this._ctracker.getCurrentPosition()[11][0];
+        //var rarr = this._ctracker.getCurrentPosition()[62][1] - this._ctracker.getCurrentPosition()[37][1];
+        //var rabj = this._ctracker.getCurrentPosition()[37][1] - this._ctracker.getCurrentPosition()[62][1];
 
-        //this._fdeformer.load(this._mask.nativeElement, this._mask_coords, faceModel);
-        //this._fdeformer.draw(this._ctracker.getCurrentPosition());
-        //this._fdeformer.drawGrid(this._ctracker.getCurrentPosition());
+        this._scale = this._ctracker.getCurrentParameters()[0];
+        this._rotationY = rizq - rder;
+        this._rotationZ = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[14][1];
+        this._rotationX = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[23][1];
+        this._eyeLeft = [this._ctracker.getCurrentPosition()[32][0], this._ctracker.getCurrentPosition()[32][1]];
+        this._eyeRight = [this._ctracker.getCurrentPosition()[27][0], this._ctracker.getCurrentPosition()[27][1]];
+        this._posx = this._ctracker.getCurrentPosition()[37][0];
+        this._posy = this._ctracker.getCurrentPosition()[37][1];
       }else{
-        this._fdeformer.clear();
       }
 
       //Emotion

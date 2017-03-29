@@ -12,7 +12,11 @@ export class WebcamComponent implements OnInit, AfterViewInit {
 
   public track:any;
   public scale:any = 0;
-  public rotation:any = 0;
+  public rotationY:any = 0;
+  public rotationZ:any = 0;
+  public rotationX:any = 0;
+  public eyeLeft:any = 0;
+  public eyeRight:any = 0;
   public posx:any = 0;
   public posy:any = 0;
   private _videosrc: SafeUrl;
@@ -90,7 +94,9 @@ export class WebcamComponent implements OnInit, AfterViewInit {
 
   drawLoop = () =>{
     this.scale = this.track._scale;
-    this.rotation = this.track._rotation;
+    this.rotationY = this.track._rotationY;
+    this.rotationZ = this.track._rotationZ;
+    this.rotationX = this.track._rotationX;
     this.posx = this.track._posx;
     this.posy = this.track._posy;
 
