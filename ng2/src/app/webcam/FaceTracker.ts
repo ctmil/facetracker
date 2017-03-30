@@ -33,8 +33,9 @@ export class FaceTracker {
 
   public startTrack(debug:boolean) {
     //Tracking
-    this._ctracker = new Tracker.tracker({useWebGL: true});
+    this._ctracker = new Tracker.tracker({useWebGL: true, searchWindow : 15});
     this._ctracker.init(faceModel);
+    this._ctracker.start(this._video.nativeElement);
 
     //Draw in Canvas
     this.drawLoop();
@@ -42,7 +43,6 @@ export class FaceTracker {
 
   public drawLoop = () => {
 
-    this._ctracker.track(this._video.nativeElement);
     var canvasInput = this._overlayCC.nativeElement;
 
     if (this._ctracker.getCurrentPosition()) {
@@ -69,7 +69,7 @@ export class FaceTracker {
         this._posx = this._ctracker.getCurrentPosition()[37][0];
         this._posy = this._ctracker.getCurrentPosition()[37][1];
       }else{
-
+        cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
       }
 
     }

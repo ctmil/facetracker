@@ -20,18 +20,17 @@ export class WebcamComponent implements OnInit, AfterViewInit {
   public eyeRight:any = 0;
   public posx:number = 0;
   public posy:number = 0;
+  //////////////////////////////
   private _videosrc: SafeUrl;
   @ViewChild("video") private _videoCamElem: ElementRef;
   @ViewChild("overlay") private _overlay: ElementRef;
 
   private _constraints: any = {
     video: {
-      mandatory: {
+        width: 1280, height: 720,
         minAspectRatio: 1.333,
         maxAspectRatio: 1.334,
-        minFrameRate: 30,
-        maxFrameRate: 60,
-      }
+        minFrameRate: 30
     }
   };
 

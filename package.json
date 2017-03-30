@@ -6,6 +6,7 @@
   "scripts": {
     "install-all": "npm install && cd ng2 && npm install && cd ..",
     "start": "cd ng2 && ng build -bh -prod ./ && cd .. && electron .",
+    "start-debug": "cd ng2 && ng build -bh ./ && cd .. && electron .",
     "electron": "electron .",
     "serve": "cd ng2 && ng serve && cd ..",
     "build": "cd ng2 && ng build -bh -prod ./ && cd .."

@@ -7,7 +7,7 @@ import * as THREE from 'three';
   styleUrls: ['./cube.component.css']
 })
 export class CubeComponent implements AfterViewInit {
-  private camera: THREE.PerspectiveCamera;
+  private camera: THREE.OrthographicCamera;
 
   private get canvas() : HTMLCanvasElement {
     return this.canvasRef.nativeElement;
@@ -59,12 +59,12 @@ export class CubeComponent implements AfterViewInit {
   /* STAGING, ANIMATION, AND RENDERING */
 
   private animateCube() {
-    this.cube.scale.set(this.scaleX, this.scaleY, this.scaleX);
-    this.cube.position.x = ( (this.posx-200)*-1 );
-    this.cube.position.y = ( (this.posy-150)*-1);
-    this.cube.rotation.y = this.rotationY / 50;
-    this.cube.rotation.z = this.rotationZ / 100*-1;
-    this.cube.rotation.x = this.rotationX / 50*-1;
+    this.scene.scale.set(this.scaleX, this.scaleY, this.scaleX);
+    this.scene.position.x = ( (this.posx-(this.canvas.clientWidth/2) )*-1 );
+    this.scene.position.y = ( (this.posy-(this.canvas.clientHeight/2) )*-1);
+    this.scene.rotation.y = this.rotationY / 50;
+    this.scene.rotation.z = this.rotationZ / 100*-1;
+    this.scene.rotation.x = this.rotationX / 50*-1;
   }
 
   private createCube() {
@@ -99,7 +99,8 @@ export class CubeComponent implements AfterViewInit {
 
     /* Camera */
     let aspectRatio = this.getAspectRatio();
-    this.camera = new THREE.PerspectiveCamera();
+    this.camera = new THREE.OrthographicCamera(this.canvas.clientWidth / - 2, this.canvas.clientWidth / 2,
+      this.canvas.clientHeight / 2, this.canvas.clientHeight / - 2, this.nearClippingPane, this.farClippingPane);
     this.camera.position.z = this.cameraZ;
   }
 
@@ -125,8 +126,8 @@ export class CubeComponent implements AfterViewInit {
 
   /* EVENTS */
   public onResize() {
-    this.camera.aspect = this.getAspectRatio();
-    this.camera.updateProjectionMatrix();
+    //this.camera.aspect = this.getAspectRatio();
+    //this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
   }

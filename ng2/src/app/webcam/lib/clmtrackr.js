@@ -1341,7 +1341,8 @@ module.exports  = {
 		})();
 
 		var cancelRequestAnimFrame = (function() {
-			return window.cancelCancelRequestAnimationFrame ||
+			return window.cancelAnimationFrame ||
+                                window.cancelCancelRequestAnimationFrame ||
 				window.webkitCancelRequestAnimationFrame ||
 				window.mozCancelRequestAnimationFrame ||
 				window.oCancelRequestAnimationFrame ||
