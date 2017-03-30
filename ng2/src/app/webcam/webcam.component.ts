@@ -11,14 +11,15 @@ import { FaceTracker } from "./FaceTracker";
 export class WebcamComponent implements OnInit, AfterViewInit {
 
   public track:any;
-  public scale:any = 0;
-  public rotationY:any = 0;
-  public rotationZ:any = 0;
-  public rotationX:any = 0;
+  public scaleX:number = 1;
+  public scaleY:number = 1;
+  public rotationY:number = 0;
+  public rotationZ:number = 0;
+  public rotationX:number = 0;
   public eyeLeft:any = 0;
   public eyeRight:any = 0;
-  public posx:any = 0;
-  public posy:any = 0;
+  public posx:number = 0;
+  public posy:number = 0;
   private _videosrc: SafeUrl;
   @ViewChild("video") private _videoCamElem: ElementRef;
   @ViewChild("overlay") private _overlay: ElementRef;
@@ -59,7 +60,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
 
   private ctrack() {
     this.track = new FaceTracker(this._videoCamElem, this._overlay, true);
-    this.track.startTracke();
+    this.track.startTrack();
   }
 
   private gotStream(stream: any) {
@@ -90,7 +91,8 @@ export class WebcamComponent implements OnInit, AfterViewInit {
   }
 
   drawLoop = () =>{
-    this.scale = this.track._scale;
+    this.scaleX = this.track._scaleX;
+    this.scaleY = this.track._scaleY;
     this.rotationY = this.track._rotationY;
     this.rotationZ = this.track._rotationZ;
     this.rotationX = this.track._rotationX;

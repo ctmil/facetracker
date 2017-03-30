@@ -5,10 +5,10 @@
   "main": "main.js",
   "scripts": {
     "install-all": "npm install && cd ng2 && npm install && cd ..",
-    "start": "cd ng2 && ng build -bh ./ && cd .. && electron .",
+    "start": "cd ng2 && ng build -bh -prod ./ && cd .. && electron .",
     "electron": "electron .",
     "serve": "cd ng2 && ng serve && cd ..",
-    "build": "cd ng2 && ng build -bh ./ && cd .."
+    "build": "cd ng2 && ng build -bh -prod ./ && cd .."
   },
   "repository": "",
   "keywords": [

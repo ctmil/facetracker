@@ -26,42 +26,44 @@ export class CubeComponent implements AfterViewInit {
   @Input()
   public cameraZ: number = 400;
   @Input()
-  public fieldOfView: number = 70;
+  public fieldOfView: number = 50;
   @Input('nearClipping')
   public nearClippingPane: number = 1;
   @Input('farClipping')
   public farClippingPane: number = 1000;
 
-  @Input('scale')
-  public scale: any = 0;
+  @Input('scaleX')
+  public scaleX:number = 1;
+  @Input('scaleY')
+  public scaleY:number = 1;
 
   @Input('rotationY')
-  public rotationY: any = 0;
+  public rotationY:number = 0;
   @Input('rotationZ')
-  public rotationZ: any = 0;
+  public rotationZ:number = 0;
   @Input('rotationX')
-  public rotationX: any = 0;
+  public rotationX:number = 0;
 
   @Input('eyeLeft')
-  public eyeLeft: any = 0;
+  public eyeLeft:any;
   @Input('eyeRight')
-  public eyeRight: any = 0;
+  public eyeRight:any;
 
   @Input('posx')
-  public posx: any = 0;
+  public posx:number = 0;
   @Input('posy')
-  public posy: any = 0;
+  public posy:number = 0;
 
   constructor() { }
 
   /* STAGING, ANIMATION, AND RENDERING */
 
   private animateCube() {
-    this.cube.scale.set(this.scale,this.scale,this.scale);
+    this.cube.scale.set(this.scaleX, this.scaleY, this.scaleX);
     this.cube.position.x = ( (this.posx-200)*-1 );
     this.cube.position.y = ( (this.posy-150)*-1);
     this.cube.rotation.y = this.rotationY / 50;
-    this.cube.rotation.z = this.rotationZ / 60*-1;
+    this.cube.rotation.z = this.rotationZ / 100*-1;
     this.cube.rotation.x = this.rotationX / 50*-1;
   }
 
@@ -83,7 +85,7 @@ export class CubeComponent implements AfterViewInit {
         scena.add(dae);
 		});*/ //Uncomment for use Collada Model
 
-    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+    var directionalLight = new THREE.DirectionalLight(0xffeedd);
 
     this.scene.add(directionalLight);
     this.scene.add(this.cube);  //Add Cube for Debug
@@ -105,14 +107,13 @@ export class CubeComponent implements AfterViewInit {
     return this.canvas.clientWidth / this.canvas.clientHeight;
   }
 
-  /* Rendering Loop */
+  /* LOOP */
   private startRenderingLoop() {
     /* Renderer */
     // Use canvas element in template
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-    //this.renderer.setClearColor( 0xffffff, 1);
 
     let component: CubeComponent = this;
     (function render() {

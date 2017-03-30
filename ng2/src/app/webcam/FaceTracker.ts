@@ -1,9 +1,8 @@
 import { ElementRef } from '@angular/core';
-import { EmotionClassifier } from './emotionClassifier';
+//import { EmotionClassifier } from './emotionClassifier';  //Use for Emotion Detect
 const Tracker = require('./lib/clmtrackr.js');
-const Deformer = require('./lib/face_deformer.js');
 const faceModel = require('./lib/model_spca_20_svm.js');
-var lastLoop:any = new Date;
+//const Deformer = require('./lib/face_deformer.js'); //Use for FaceMasking
 
 export class FaceTracker {
 
@@ -14,26 +13,25 @@ export class FaceTracker {
   private _ctracker: any;
   private _fdeformer: any;
   private _positions: any;
-  private _emotion: EmotionClassifier;
 
-  public _scale: any = 0;
-  public _rotationY: any = 0;
-  public _rotationZ: any = 0;
-  public _rotationX: any = 0;
-  public _eyeLeft: any = 0;
-  public _eyeRight: any = 0;
-  public _posx: any = 0;
-  public _posy: any = 0;
+  public _scaleX:number = 1;
+  public _scaleY:number = 1;
+  public _rotationY:number = 0;
+  public _rotationZ:number = 0;
+  public _rotationX:number = 0;
+  public _eyeLeft:any = 0;
+  public _eyeRight:any = 0;
+  public _posx:number = 0;
+  public _posy:number = 0;
 
   constructor(video: ElementRef, overlayCC: ElementRef, videoReady: boolean) {
     this._video = video;
     this._overlayCC = overlayCC;
     this._videoReady = videoReady;
     ////////////////////////////////////////
-    this._emotion = new EmotionClassifier();
   }
 
-  public startTracke() {
+  public startTrack(debug:boolean) {
     //Tracking
     this._ctracker = new Tracker.tracker({useWebGL: true});
     this._ctracker.init(faceModel);
@@ -55,17 +53,14 @@ export class FaceTracker {
         cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
         this._ctracker.draw(canvasInput);
 
-        var er = this._emotion.meanPredict(this._ctracker.getCurrentParameters());
-
         var w = this._ctracker.getCurrentPosition()[14][0] - this._ctracker.getCurrentPosition()[0][0];
-        var h = this._ctracker.getCurrentPosition()[7][0] - this._ctracker.getCurrentPosition()[33][0];
+        var h = this._ctracker.getCurrentPosition()[7][1] - this._ctracker.getCurrentPosition()[33][1];
         var pz = this._ctracker.getCurrentPosition()[47][0] - this._ctracker.getCurrentPosition()[37][0];
         var rizq = this._ctracker.getCurrentPosition()[3][0] - this._ctracker.getCurrentPosition()[44][0];
         var rder = this._ctracker.getCurrentPosition()[50][0] - this._ctracker.getCurrentPosition()[11][0];
 
-        console.log(w / 100);
-
-        this._scale = w / 100;
+        this._scaleX = w / 80;
+        this._scaleY = h / 50;
         this._rotationY = rizq - rder;
         this._rotationZ = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[14][1];
         this._rotationX = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[23][1];
@@ -74,30 +69,12 @@ export class FaceTracker {
         this._posx = this._ctracker.getCurrentPosition()[37][0];
         this._posy = this._ctracker.getCurrentPosition()[37][1];
       }else{
-      }
 
-      //Emotion
-      if (er) {
-        var positionString = "";
-        for (var p = 0; p < er.length; p++) {
-          positionString += er[p]["emotion"] + " : [" + er[p]["value"].toFixed(1) + "]\n";
-        }
       }
 
     }
-    //Debug
-    //this.debug();
-    //
-    requestAnimationFrame(this.drawLoop);
-  }
 
-  public debug = () => {
-    var thisLoop:any = new Date;
-    var fps = 1000 / (Number(thisLoop) - Number(lastLoop));
-    lastLoop = thisLoop;
-    /////////////////////////////////////////////////
-    console.log("SCORE: ", this._ctracker.getScore() );
-    console.log("FPS: ", parseInt(fps.toString()) );
+    requestAnimationFrame(this.drawLoop);
   }
 
 }
