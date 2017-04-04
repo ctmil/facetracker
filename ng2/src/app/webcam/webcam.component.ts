@@ -21,6 +21,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
   public posx:number = 0;
   public posy:number = 0;
   //////////////////////////////
+  public face:boolean = false;
   private _videosrc: SafeUrl;
   @ViewChild("video") private _videoCamElem: ElementRef;
   @ViewChild("overlay") private _overlay: ElementRef;
@@ -78,7 +79,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.ctrack();
-    this.drawLoop();
+    this.loop();
   }
 
   get videosrc(): SafeUrl {
@@ -89,7 +90,7 @@ export class WebcamComponent implements OnInit, AfterViewInit {
     this._videosrc = videosrc;
   }
 
-  drawLoop = () =>{
+  loop = () =>{
     this.scaleX = this.track._scaleX;
     this.scaleY = this.track._scaleY;
     this.rotationY = this.track._rotationY;
@@ -97,8 +98,17 @@ export class WebcamComponent implements OnInit, AfterViewInit {
     this.rotationX = this.track._rotationX;
     this.posx = this.track._posx;
     this.posy = this.track._posy;
+    this.face = this.track._face;
 
-    requestAnimationFrame(this.drawLoop);
+    requestAnimationFrame(this.loop);
+  }
+
+  stopFace(){
+    this.track.stopFace();
+  }
+
+  startFace(){
+    this.track.startFace();
   }
 
 }

@@ -1,4 +1,4 @@
-#overlay, #webgl {
+#overlay {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -6,6 +6,10 @@
 }
 #video {
   transform: scaleX(-1);
+}
+#overlay, #video{
+  width: 640px;
+  height: 480px;
 }
 #container {
   position: relative;

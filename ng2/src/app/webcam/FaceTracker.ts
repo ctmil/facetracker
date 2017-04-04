@@ -10,9 +10,7 @@ export class FaceTracker {
   private _overlayCC: ElementRef;
   private _videoReady: boolean = false;
 
-  private _ctracker: any;
-  private _fdeformer: any;
-  private _positions: any;
+  private _ctracker:any;
 
   public _scaleX:number = 1;
   public _scaleY:number = 1;
@@ -24,25 +22,34 @@ export class FaceTracker {
   public _posx:number = 0;
   public _posy:number = 0;
 
-  constructor(video: ElementRef, overlayCC: ElementRef, videoReady: boolean) {
+  public _face:boolean = false;
+
+  constructor(video:ElementRef, overlayCC:ElementRef, videoReady:boolean) {
     this._video = video;
     this._overlayCC = overlayCC;
     this._videoReady = videoReady;
     ////////////////////////////////////////
+    this._ctracker = new Tracker.tracker({useWebGL: true, searchWindow : 14});
   }
 
   public startTrack(debug:boolean) {
     //Tracking
-    this._ctracker = new Tracker.tracker({useWebGL: true, searchWindow : 15});
     this._ctracker.init(faceModel);
-    this._ctracker.start(this._video.nativeElement);
-
     //Draw in Canvas
     this.drawLoop();
   }
 
-  public drawLoop = () => {
+  public stopFace(){
+    this._ctracker.stop();
+    this._face = false;
+  }
 
+  public startFace(){
+    this._ctracker.start(this._video.nativeElement);
+    this._face = true;
+  }
+
+  public drawLoop = () => {
     var canvasInput = this._overlayCC.nativeElement;
 
     if (this._ctracker.getCurrentPosition()) {
@@ -60,20 +67,19 @@ export class FaceTracker {
         var rder = this._ctracker.getCurrentPosition()[50][0] - this._ctracker.getCurrentPosition()[11][0];
 
         this._scaleX = w / 80;
-        this._scaleY = h / 50;
+        this._scaleY = h / 60;
         this._rotationY = rizq - rder;
         this._rotationZ = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[14][1];
         this._rotationX = this._ctracker.getCurrentPosition()[0][1] - this._ctracker.getCurrentPosition()[23][1];
         this._eyeLeft = [this._ctracker.getCurrentPosition()[32][0], this._ctracker.getCurrentPosition()[32][1]];
         this._eyeRight = [this._ctracker.getCurrentPosition()[27][0], this._ctracker.getCurrentPosition()[27][1]];
-        this._posx = this._ctracker.getCurrentPosition()[37][0];
-        this._posy = this._ctracker.getCurrentPosition()[37][1];
+        this._posx = this._ctracker.getCurrentPosition()[62][0];
+        this._posy = this._ctracker.getCurrentPosition()[62][1];
       }else{
         cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
       }
 
     }
-
     requestAnimationFrame(this.drawLoop);
   }
 
