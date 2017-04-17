@@ -28,7 +28,6 @@ export class WebcamComponent implements OnInit, AfterViewInit {
 
   private _constraints: any = {
     video: {
-        width: 1280, height: 720,
         minAspectRatio: 1.333,
         maxAspectRatio: 1.334,
         minFrameRate: 30

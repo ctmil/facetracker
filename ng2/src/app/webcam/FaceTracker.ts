@@ -50,21 +50,23 @@ export class FaceTracker {
   }
 
   public drawLoop = () => {
-    var canvasInput = this._overlayCC.nativeElement;
+    let canvasInput = this._overlayCC.nativeElement;
 
     if (this._ctracker.getCurrentPosition()) {
 
-      var cc = canvasInput.getContext('2d');
+      let cc = canvasInput.getContext('2d');
 
       if(this._ctracker.getScore() > 0.5){
         cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
-        this._ctracker.draw(canvasInput);
+        if(this._face){
+          this._ctracker.draw(canvasInput);
+        }
 
-        var w = this._ctracker.getCurrentPosition()[14][0] - this._ctracker.getCurrentPosition()[0][0];
-        var h = this._ctracker.getCurrentPosition()[7][1] - this._ctracker.getCurrentPosition()[33][1];
-        var pz = this._ctracker.getCurrentPosition()[47][0] - this._ctracker.getCurrentPosition()[37][0];
-        var rizq = this._ctracker.getCurrentPosition()[3][0] - this._ctracker.getCurrentPosition()[44][0];
-        var rder = this._ctracker.getCurrentPosition()[50][0] - this._ctracker.getCurrentPosition()[11][0];
+        let w = this._ctracker.getCurrentPosition()[14][0] - this._ctracker.getCurrentPosition()[0][0];
+        let h = this._ctracker.getCurrentPosition()[7][1] - this._ctracker.getCurrentPosition()[33][1];
+        let pz = this._ctracker.getCurrentPosition()[47][0] - this._ctracker.getCurrentPosition()[37][0];
+        let rizq = this._ctracker.getCurrentPosition()[3][0] - this._ctracker.getCurrentPosition()[44][0];
+        let rder = this._ctracker.getCurrentPosition()[50][0] - this._ctracker.getCurrentPosition()[11][0];
 
         this._scaleX = w / 80;
         this._scaleY = h / 60;

@@ -86,18 +86,22 @@ export class CubeComponent implements AfterViewInit {
 
     /*let dae;
     let loader = require('three-collada-loader')(THREE);
-    let pathToDae = './assets/mask.dae';  //Path to Collada Model
+    let pathToDae = './assets/mesh.dae';  //Path to Collada Model
 		loader.options.convertUpAxis = true;
 		loader.load( pathToDae, function ( collada ) {
+        console.log(collada);
 				dae = collada.scene;
-				dae.scale.x = dae.scale.y = dae.scale.z = 1;
+				dae.scale.x = dae.scale.y = dae.scale.z = 23;
+        dae.position.x = 4;
 				dae.updateMatrix();
+        dae.children[0].castShadow = true;
+        dae.children[0].receiveShadow = true;
         scena.add(dae);
 		}); //Uncomment for use Collada Model*/
 
-    var directionalLight = new THREE.DirectionalLight(0xffeedd);
+    let light = new THREE.AmbientLight( 0xffffff, 1 );
 
-    this.scene.add(directionalLight);
+    this.scene.add(light);
     this.scene.add(scena);
   }
 
@@ -119,7 +123,7 @@ export class CubeComponent implements AfterViewInit {
   /* LOOP */
   private startRenderingLoop() {
     /* Renderer */
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true });
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, premultipliedAlpha: false});
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
 

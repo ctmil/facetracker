@@ -8,8 +8,8 @@
   transform: scaleX(-1);
 }
 #overlay, #video{
-  width: 640px;
-  height: 480px;
+  width: 400px;
+  height: 300px;
 }
 #container {
   position: relative;
